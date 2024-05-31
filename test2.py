@@ -18,9 +18,6 @@ y_train = y[:400]
 y_test = y[-10:]
 
 feature_matrix = np.hstack((X_train, np.ones((len(X_train), 1))))
-
-print(feature_matrix)
-
 theta = np.dot(feature_matrix.T, feature_matrix)
 theta = np.linalg.inv(theta)
 theta = np.dot(theta, feature_matrix.T)
@@ -56,15 +53,16 @@ def grad(x_true, y_true, coef_params, intercept_params, shift, eta, boundary):
     
     coef_diff = np.zeros((2,))
     intercept_diff = np.zeros((2,))
-    
+    start = time.time()
     for i in range(len(coef_params)):
         coef_params_1 = coef_params.copy()
         coef_params_2 = coef_params.copy()
         coef_params_1[i] += shift
         coef_params_2[i] -= shift
+        
         for x, y in zip(x_true, y_true):
             coef_diff[i] -= x*(y-predict(x, coef_params, intercept_params, boundary))*(output(coef_params_1)-output(coef_params_2))/(2*np.sin(shift))
-            
+        
         
     for i in range(len(coef_params)):
         intercept_params_1 = intercept_params.copy()
@@ -73,7 +71,7 @@ def grad(x_true, y_true, coef_params, intercept_params, shift, eta, boundary):
         intercept_params_2[i] -= shift
         for x, y in zip(x_true, y_true):
             intercept_diff[i] -= (y-predict(x, coef_params, intercept_params, boundary))*(output(intercept_params_1)-output(intercept_params_2))/(2*np.sin(shift))
-     
+    print("Time for layers:", time.time()-start)
     coef_diff = coef_diff*boundary*2/len(y_true)
     intercept_diff = intercept_diff*boundary*2/len(y_true)
     
@@ -97,4 +95,7 @@ for i in range(5):
     coef_params, intercept_params = grad(X_train, y_train, coef_params, intercept_params, np.pi/20, eta=0.1, boundary=10)
 #     costs_train_qlr.append(errors(X_train, y_train, coef_params, intercept_params, boundary))
 #     costs_test_qlr.append(errors(X_test, y_test, coef_params, intercept_params, boundary))
-end = time.time()  
+end = time.time()
+
+print("Sum:", end-start)
+print
