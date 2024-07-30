@@ -11,7 +11,7 @@ import cmath
 def shift_walk(wavefunction, dim):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
-    new_amplitude = np.zeros(len(amplitude), dtype = complex)
+    new_amplitude = np.zeros(len(amplitude), dtype = np.complex64)
     if dim != 1 and dim != 2:
         raise TypeError('The dimension of the quantum walk must be 1 or 2')
     if dim == 1:
@@ -40,7 +40,7 @@ def shift_walk(wavefunction, dim):
 def H_coin(wavefunction, dim):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
-    new_amplitude = np.zeros(len(amplitude), dtype = complex)
+    new_amplitude = np.zeros(len(amplitude), dtype = np.complex64)
     if dim != 1 and dim != 2:
         raise TypeError('The dimension of the quantum walk must be 1 or 2')
     if dim == 1:
@@ -80,7 +80,7 @@ def H_coin(wavefunction, dim):
 def Gover_coin(wavefunction, dim):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
-    new_amplitude = np.zeros(len(amplitude), dtype = complex)
+    new_amplitude = np.zeros(len(amplitude), dtype = np.complex64)
     if dim != 2:
         raise TypeError('The dimension of the quantum walk must be 2')
     else:

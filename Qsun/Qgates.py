@@ -12,7 +12,7 @@ def H(wavefunction, n):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-n-1)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
@@ -31,7 +31,7 @@ def X(wavefunction, n):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-n-1)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
@@ -48,7 +48,7 @@ def Y(wavefunction, n):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-n-1)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
@@ -65,7 +65,7 @@ def Z(wavefunction, n):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
     for i in np.nonzero(amplitude)[0]:
@@ -81,7 +81,7 @@ def RX(wavefunction, n, phi=0):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-n-1)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
@@ -100,7 +100,7 @@ def RY(wavefunction, n, phi=0):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-n-1)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
@@ -119,7 +119,7 @@ def RZ(wavefunction, n, phi=0):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
     for i in np.nonzero(amplitude)[0]:
@@ -135,7 +135,7 @@ def Phase(wavefunction, n, phi=0):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
     for i in np.nonzero(amplitude)[0]:
@@ -161,7 +161,7 @@ def Xsquare(wavefunction, n):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-n-1)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
@@ -181,7 +181,7 @@ def CNOT(wavefunction, control, target):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     if control < target or control > target:
         cut = 2**(qubit_num-target-1)
     else:
@@ -202,7 +202,7 @@ def CPhase(wavefunction, control, target, phi=0):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     if control == target:
         raise TypeError("Control qubit and target qubit must be distinct")
     for i in np.nonzero(amplitude)[0]:
@@ -223,7 +223,7 @@ def CCNOT(wavefunction, control_1, control_2, target):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-target-1)
     if control_1 == target or control_2 == target or control_1 == control_2:
         raise TypeError("Control qubit and target qubit must be distinct")
@@ -245,7 +245,7 @@ def OR(wavefunction, control_1, control_2, target):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-target-1)
     if control_1 == target or control_2 == target or control_1 == control_2:
         raise TypeError("Control qubit and target qubit must be distinct")
@@ -264,7 +264,7 @@ def SWAP(wavefunction, target_1, target_2):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     minimum = target_2 ^ ((target_1 ^ target_2) & -(target_1 < target_2))
     maximum = target_1 ^ ((target_1 ^ target_2) & -(target_1 < target_2)) 
     cut = 2**(qubit_num-minimum-1) - 2**(qubit_num-maximum-1)
@@ -289,7 +289,7 @@ def E(wavefunction, p, n):
     states = wavefunction.state
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     cut = 2**(qubit_num-n-1)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")

@@ -33,7 +33,7 @@ def collapse_one(wavefunction, n):
     amplitude = wavefunction.amplitude
     qubit_num = len(states[0])
     prob_0 = 0
-    new_amplitude = np.zeros(2**qubit_num, dtype = complex)
+    new_amplitude = np.zeros(2**qubit_num, dtype = np.complex64)
     if n >= qubit_num or n < 0:
         raise TypeError("Index is out of range")
     for i in range(2**qubit_num):
