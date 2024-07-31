@@ -13,7 +13,7 @@ num_qubits = 20
 num_decimals = 7
 
 fidelitiess = np.zeros((num_qubits, num_decimals))
-for num_qubit in range(14, num_qubits):
+for num_qubit in range(15, num_qubits):
      
     for num_decimal in range(3, num_decimals):
         fidelities = []
@@ -25,4 +25,6 @@ for num_qubit in range(14, num_qubits):
         fidelitiess[num_qubit, num_decimal] = np.mean(fidelities)
         print(f"n: {num_qubit}, n_decimal: {num_decimal}")       
         print(np.mean(fidelities))
+        if np.mean(fidelities) > 0.99999 and np.mean(fidelities) < 1.00001:
+            break
     np.savetxt("fidelities.txt", fidelitiess)
