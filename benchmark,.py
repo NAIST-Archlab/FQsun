@@ -9,11 +9,11 @@ def generate_state(num_qubits):
     qc.unitary(unitary_matrix, list(range(0, num_qubits)), label='InputUnita')
     return qi.Statevector.from_instruction(qc).data
 
-num_qubits = 18
-num_decimals = 15
+num_qubits = 20
+num_decimals = 7
 
 fidelitiess = np.zeros((num_qubits, num_decimals))
-for num_qubit in range(1, num_qubits):
+for num_qubit in range(14, num_qubits):
      
     for num_decimal in range(3, num_decimals):
         fidelities = []
@@ -25,4 +25,4 @@ for num_qubit in range(1, num_qubits):
         fidelitiess[num_qubit, num_decimal] = np.mean(fidelities)
         print(f"n: {num_qubit}, n_decimal: {num_decimal}")       
         print(np.mean(fidelities))
-np.savetxt("fidelities.txt", fidelitiess)
+    np.savetxt("fidelities.txt", fidelitiess)
