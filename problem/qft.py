@@ -11,11 +11,12 @@ def qft_Qsun(num_qubits: int):
         num_qubits -= 1
         H(circuit, num_qubits)
         for j in range(num_qubits):
-            RZ(circuit, num_qubits, np.pi/2**(num_qubits-j) / 2)
+            # qc.cp(np.pi/2**(num_qubits-j), j, num_qubits)
+            RZ(circuit, j, (np.pi/2**(num_qubits-j)) / 2)
             CNOT(circuit, j, num_qubits)
-            RZ(circuit, num_qubits, -np.pi/2**(num_qubits-j) / 2)
+            RZ(circuit, num_qubits, -(np.pi/2**(num_qubits-j)) / 2)
             CNOT(circuit, j, num_qubits)
-            RZ(circuit, num_qubits, +np.pi/2**(num_qubits-j) / 2)
+            RZ(circuit, num_qubits, (np.pi/2**(num_qubits-j)) / 2)
         qft_rotations_Qsun(circuit, num_qubits)
     def swap_registers_Qsun(circuit: Wavefunction, num_qubits: int):
         for j in range(num_qubits // 2):
@@ -108,12 +109,21 @@ def qft_Qiskit(num_qubits):
         num_qubits -= 1
         qc.h(num_qubits)
         for j in range(num_qubits):
+            
+            # qc.rz(np.pi/2**(num_qubits-j) / 2, num_qubits)
+            # qc.cx(j, num_qubits)
+            # qc.rz(-np.pi/2**(num_qubits-j) / 2, num_qubits)
+            # qc.cx(j, num_qubits)
+            # qc.rz(+np.pi/2**(num_qubits-j) / 2, num_qubits)
+            
             qc.cp(np.pi/2**(num_qubits-j), j, num_qubits)
             qc.barrier()
         qft_rotations_Qiskit(qc, num_qubits)
     def swap_registers_Qiskit(qc, num_qubits):
         for j in range(num_qubits//2):
-            qc.swap(j, num_qubits-j-1)
+            qc.cx(j, num_qubits-j-1)
+            qc.cx(num_qubits-j-1, j)
+            qc.cx(j, num_qubits-j-1)
             qc.barrier()
         return qc
     qc = qiskit.QuantumCircuit(num_qubits)
@@ -142,7 +152,10 @@ def qft_Pennylane(num_qubits: int):
 
     def swap_registers_Pennylane(num_qubits: int):
         for j in range(num_qubits // 2):
-            qml.SWAP(wires = [j, num_qubits - j - 1])
+            qml.CNOT(wires = [j, num_qubits-j-1])
+            qml.CNOT(wires = [num_qubits-j-1, j])
+            qml.CNOT(wires = [j, num_qubits-j-1])
     qft_rotations_Pennylane(num_qubits)
     swap_registers_Pennylane(num_qubits)
+    # return qml.state()
     return qml.probs(wires=range(num_qubits))
