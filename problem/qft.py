@@ -29,7 +29,34 @@ def qft_Qsun(num_qubits: int):
     swap_registers_Qsun(circuit, num_qubits)
     return circuit.probabilities()
 
+def qft_Qsun_verify(num_qubits: int):
+    from Qsun.Qwave import Wavefunction
+    from Qsun.Qcircuit import Qubit
+    from Qsun.Qgates import RZ, H, CNOT
+    def qft_rotations_Qsun(circuit: Wavefunction, num_qubits: int):
+        import numpy as np
+        if num_qubits == 0:
+            return circuit
+        num_qubits -= 1
+        H(circuit, num_qubits)
+        for j in range(num_qubits):
+            RZ(circuit, num_qubits, np.pi/2**(num_qubits-j) / 2)
+            CNOT(circuit, j, num_qubits)
+            RZ(circuit, num_qubits, -np.pi/2**(num_qubits-j) / 2)
+            CNOT(circuit, j, num_qubits)
+            RZ(circuit, num_qubits, +np.pi/2**(num_qubits-j) / 2)
+        qft_rotations_Qsun(circuit, num_qubits)
+    def swap_registers_Qsun(circuit: Wavefunction, num_qubits: int):
+        for j in range(num_qubits // 2):
+            CNOT(circuit, j, num_qubits-j-1)
+            CNOT(circuit, num_qubits-j-1, j)
+            CNOT(circuit, j, num_qubits-j-1)
+        return circuit
 
+    circuit = Qubit(num_qubits)
+    qft_rotations_Qsun(circuit, num_qubits)
+    swap_registers_Qsun(circuit, num_qubits)
+    return circuit.amplitude
 
 
 
