@@ -19,10 +19,10 @@ def circuit_qsun(params: np.ndarray, num_qubits: int):
 
     c: Wavefunction = Qubit(num_qubits)
     for j in range(0, num_qubits):
+        print(j)
         RZ(c, j, params[j])
         RX(c, j, params[j + 1])
         RZ(c, j, params[j + 2])
-        j += 3
     return c
 
 def cost_qsun(params: np.ndarray) -> float:
@@ -50,7 +50,7 @@ def psr(cost: types.FunctionType, params: np.ndarray, epsilon: float = np.pi/2, 
     Returns:
         np.ndarray: gradient of cost function
     """
-    grad = np.zeros((3*i,))
+    grad = np.ones((len(params),))
     for i in range(len(params)):
         params_1 = params.copy()
         params_2 = params.copy()
