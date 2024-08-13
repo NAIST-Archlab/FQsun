@@ -12,6 +12,40 @@ def choice_from_array(arr, condition):
             item = None
     return item
     
+def qrc_Qsun_verify(num_qubits: int, depth: int):
+    import numpy as np
+    from Qsun.Qcircuit import Qubit
+    from Qsun.Qgates import RX, RZ, RY, H, S, CNOT
+    seed = np.random.randint(0, np.iinfo(np.int32).max)
+    rng = np.random.default_rng(seed)
+    max_operands = 2
+    circuit = Qubit(num_qubits)
+    pool = [RX, RZ, RY, H, S, CNOT]
+    list_gates = []
+    for _ in range(depth):
+        remaining_qubits = list(range(num_qubits))
+        while remaining_qubits:
+            max_possible_operands = min(len(remaining_qubits), max_operands)
+            num_operands = choice_from_array(
+                gate_prob, lambda value: value <= max_possible_operands)
+            rng.shuffle(remaining_qubits)
+            operands = remaining_qubits[:num_operands]
+            remaining_qubits = [
+                q for q in remaining_qubits if q not in operands]
+            if num_operands == 1:
+                num_op_pool = [RX, RZ, RY, H, S]
+            else:
+                num_op_pool = [CNOT]
+            operation = rng.choice(num_op_pool)
+            if operation == RX or operation == RY or operation == RZ:
+                phase = np.random.uniform(0, 2*np.pi)
+                operation(circuit, *operands, phase)
+                list_gates.append((operation.__name__, operands, phase))
+            else:
+                operation(circuit, *operands)
+                list_gates.append((operation.__name__, operands, -999))
+    return circuit, list_gates
+
 def qrc_Qsun(num_qubits: int, depth: int):
     import numpy as np
     from Qsun.Qcircuit import Qubit
