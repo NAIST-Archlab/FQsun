@@ -5,8 +5,7 @@ from problem import psr
 import os, utilities
 from qoop.core import metric
 
-%load_ext autoreload
-%autoreload
+
 types = ['FP32', 'FP16', 'FX32', 'FX24', 'FX16']
 num_qubits = 17
 for datatype in types:
