@@ -1,4 +1,6 @@
 import qiskit
+import numpy as np
+
 gate_prob = [1, 1, 1, 2]
 
 def choice_from_array(arr, condition):
@@ -281,3 +283,5 @@ def qrc_Pennylane(num_qubits: int, depth: int):
             else:
                 operation(wires = operands)
     return qml.probs(wires=range(num_qubits))
+
+
