@@ -1,5 +1,12 @@
 import numpy as np
 
+
+def fidelity(state1: np.ndarray, state2: np.ndarray):
+    state1 = np.expand_dims(state1, axis=0)
+    state2 = np.expand_dims(state2, axis=0)
+    return (np.abs(np.inner(np.conjugate(state1), state2))**2)[0][0]
+
+
 def read_complex_numbers(file_path):
     # Read the contents of the text file
     with open(file_path, 'r') as file:

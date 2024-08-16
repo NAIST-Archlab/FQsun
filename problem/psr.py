@@ -22,10 +22,12 @@ def circuit_Qsun(params: np.ndarray, num_qubits: int):
     from Qsun.Qwave import Wavefunction
 
     c: Wavefunction = Qubit(num_qubits)
-    for j in range(0, num_qubits):
-        RZ(c, j, params[j])
-        RX(c, j, params[j + 1])
-        RZ(c, j, params[j + 2])
+    j = 0
+    for i in range(0, num_qubits):
+        RZ(c, i, params[j])
+        RX(c, i, params[j + 1])
+        RZ(c, i, params[j + 2])
+        j += 3
     return c
 
 def cost_Qsun(params: np.ndarray) -> float:
@@ -75,10 +77,10 @@ def circuit_ProjectQ(params, num_qubits):
     import itertools
     eng = MainEngine(backend=Simulator(gate_fusion=True), engine_list=[])
     qbits = eng.allocate_qureg(num_qubits)
-    for j in range(0, num_qubits):
-        ops.Rz(params[j]) | qbits[j]
-        ops.Rx(params[j+1]) | qbits[j]
-        ops.Rz(params[j+2]) | qbits[j]
+    for i in range(0, num_qubits):
+        ops.Rz(params[j]) | qbits[i]
+        ops.Rx(params[j+1]) | qbits[i]
+        ops.Rz(params[j+2]) | qbits[i]
         j += 3
     strings = ["".join(seq) for seq in itertools.product("01", repeat = num_qubits)]
     probs = np.array([eng.backend.get_probability(i, qbits) for i in strings])
@@ -98,11 +100,11 @@ dev = qml.device('default.qubit', wires=10)
 
 @qml.qnode(dev)
 def circuit_Pennylane(params: np.ndarray, num_qubits: int):
-    for j in range(0, num_qubits):
-        qml.RZ(params[j], wires=j)
-        qml.RX(params[j+1], wires=j)
-        qml.RZ(params[j+2], wires=j)
-        j += 3
+    j = 0
+    for i in range(0, num_qubits):
+        qml.RZ(params[j], wires=i)
+        qml.RX(params[j+1], wires=i)
+        qml.RZ(params[j+2], wires=i)
     return qml.probs(wires=range(num_qubits))
 
 def cost_Pennylane(params):
@@ -118,10 +120,11 @@ def circuit_Qiskit(params: np.ndarray, num_qubits: int):
     import qiskit
     import qiskit.quantum_info
     qc = qiskit.QuantumCircuit(num_qubits)
-    for j in range(0, num_qubits, 3):
-        qc.rz(params[j], j)
-        qc.rx(params[j+1], j)
-        qc.rz(params[j+2], j)
+    j = 0
+    for i in range(0, num_qubits):
+        qc.rz(params[j], i)
+        qc.rx(params[j+1], i)
+        qc.rz(params[j+2], i)
         j += 3
     return qiskit.quantum_info.Statevector.from_instruction(qc).probabilities()
 
