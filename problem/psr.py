@@ -77,6 +77,7 @@ def circuit_ProjectQ(params, num_qubits):
     import itertools
     eng = MainEngine(backend=Simulator(gate_fusion=True), engine_list=[])
     qbits = eng.allocate_qureg(num_qubits)
+    j = 0
     for i in range(0, num_qubits):
         ops.Rz(params[j]) | qbits[i]
         ops.Rx(params[j+1]) | qbits[i]
