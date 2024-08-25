@@ -97,7 +97,8 @@ def cost_ProjectQ(params):
 # ---------------------
 
 import pennylane as qml
-dev = qml.device('default.qubit', wires=10)
+dev = qml.device('default.qubit')
+
 
 @qml.qnode(dev)
 def circuit_Pennylane(params: np.ndarray, num_qubits: int):
@@ -106,6 +107,7 @@ def circuit_Pennylane(params: np.ndarray, num_qubits: int):
         qml.RZ(params[j], wires=i)
         qml.RX(params[j+1], wires=i)
         qml.RZ(params[j+2], wires=i)
+        j += 3
     return qml.probs(wires=range(num_qubits))
 
 def cost_Pennylane(params):
