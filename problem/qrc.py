@@ -1,5 +1,6 @@
 import qiskit
 import numpy as np
+import qiskit.quantum_info
 
 gate_prob = [1, 1, 1, 2]
 
@@ -246,7 +247,8 @@ def qrc_Qiskit(num_qubits: int, depth: int):
             op = operation['operation'](*angles)
             qc.append(op, register_operands)
     qc = qc.assign_parameters(np.random.uniform(0, 2*np.pi, size = len(qc.parameters)))
-    return qc
+    prob = qiskit.quantum_info.Statevector.from_instruction(qc).probabilities()
+    return prob
 
 import pennylane as qml
 
