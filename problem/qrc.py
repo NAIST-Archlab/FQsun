@@ -229,7 +229,7 @@ def qrc_Qiskit(num_qubits: int, depth: int):
         while remaining_qubits:
             max_possible_operands = min(len(remaining_qubits), max_operands)
             num_operands = choice_from_array(
-                [1, 2], lambda value: value <= max_possible_operands)
+                gate_prob, lambda value: value <= max_possible_operands)
             rng.shuffle(remaining_qubits)
             operands = remaining_qubits[:num_operands]
             remaining_qubits = [
