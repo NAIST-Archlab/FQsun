@@ -110,27 +110,27 @@ def qft_Qiskit(num_qubits):
         qc.h(num_qubits)
         for j in range(num_qubits):
             
-            # qc.rz(np.pi/2**(num_qubits-j) / 2, num_qubits)
-            # qc.cx(j, num_qubits)
-            # qc.rz(-np.pi/2**(num_qubits-j) / 2, num_qubits)
-            # qc.cx(j, num_qubits)
-            # qc.rz(+np.pi/2**(num_qubits-j) / 2, num_qubits)
+            qc.rz(np.pi/2**(num_qubits-j) / 2, num_qubits)
+            qc.cx(j, num_qubits)
+            qc.rz(-np.pi/2**(num_qubits-j) / 2, num_qubits)
+            qc.cx(j, num_qubits)
+            qc.rz(+np.pi/2**(num_qubits-j) / 2, num_qubits)
             
-            qc.cp(np.pi/2**(num_qubits-j), j, num_qubits)
-            qc.barrier()
+            # qc.cp(np.pi/2**(num_qubits-j), j, num_qubits)
+            # qc.barrier()
         qft_rotations_Qiskit(qc, num_qubits)
-    def swap_registers_Qiskit(qc, num_qubits):
+    def swap_registers_Qiskit(qc: qiskit.QuantumCircuit, num_qubits):
         for j in range(num_qubits//2):
             qc.cx(j, num_qubits-j-1)
             qc.cx(num_qubits-j-1, j)
             qc.cx(j, num_qubits-j-1)
-            qc.barrier()
+            # qc.barrier()
         return qc
     qc = qiskit.QuantumCircuit(num_qubits)
     qft_rotations_Qiskit(qc, num_qubits)
     swap_registers_Qiskit(qc, num_qubits)
     prob = qiskit.quantum_info.Statevector.from_instruction(qc).probabilities()
-    return prob
+    return qc
 
 
 
