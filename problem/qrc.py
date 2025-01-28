@@ -248,7 +248,7 @@ def qrc_Qiskit(num_qubits: int, depth: int):
             qc.append(op, register_operands)
     qc = qc.assign_parameters(np.random.uniform(0, 2*np.pi, size = len(qc.parameters)))
     prob = qiskit.quantum_info.Statevector.from_instruction(qc).probabilities()
-    return prob
+    return qc
 
 import pennylane as qml
 

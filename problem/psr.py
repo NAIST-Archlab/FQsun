@@ -131,6 +131,19 @@ def circuit_Qiskit(params: np.ndarray, num_qubits: int):
         j += 3
     return qiskit.quantum_info.Statevector.from_instruction(qc).probabilities()
 
+def circuit_Qiskit_only(params: np.ndarray, num_qubits: int):
+    import qiskit
+    import qiskit.quantum_info
+    qc = qiskit.QuantumCircuit(num_qubits)
+    j = 0
+    for i in range(0, num_qubits):
+        qc.rz(params[j], i)
+        qc.rx(params[j+1], i)
+        qc.rz(params[j+2], i)
+        j += 3
+    return qc
+
+
 def cost_Qiskit(params):
     prob = circuit_Qiskit(params, len(params)//3)
     return -np.sum([i*prob[i] for i in range(len(prob))])
