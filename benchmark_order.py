@@ -5,8 +5,8 @@ import time
 import qiskit
 instructorss = []
 instructors = []
-num_qubits = 10
-for num_qubits in range(3, 11):
+
+for num_qubits in [6]:
     num_layers = 10
     for _ in range(num_layers):
         for i in range(num_qubits - 1):
@@ -30,7 +30,7 @@ for num_qubits in range(3, 11):
             instructors.append(['rz', phase, i])
             instructorss.append(instructors.copy())  
                 
-    num_repeats = 2
+    num_repeats = 5
     timess = []
     for instructors in instructorss:
         times = []
